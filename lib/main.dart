@@ -63,7 +63,7 @@ ThemeData buildTheme(bool dark) {
       elevation: 0,
       centerTitle: false,
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: panel,
       elevation: 0,
       margin: EdgeInsets.zero,
