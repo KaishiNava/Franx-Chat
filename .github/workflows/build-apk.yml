@@ -1,0 +1,38 @@
+name: Build FRANXX CHAT APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create Android platform files
+        run: flutter create --platforms=android --project-name=franxx_chat .
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Build APK
+        run: flutter build apk --release
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: franxx-chat-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
